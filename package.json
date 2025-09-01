@@ -1,0 +1,364 @@
+{
+  "name": "tracelet",
+  "displayName": "Tracelet",
+  "description": "Bridge LLM observability platforms with your IDE. Visualize prompt hydration, token heatmaps, and execution traces directly in VS Code.",
+  "version": "0.1.0",
+  "publisher": "tracelet",
+  "license": "MIT",
+  "icon": "resources/icons/tracelet-icon.png",
+  "galleryBanner": {
+    "color": "#0f0f23",
+    "theme": "dark"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/satwiksps/tracelet"
+  },
+  "categories": [
+    "Visualization",
+    "Debuggers",
+    "Machine Learning",
+    "Other"
+  ],
+  "keywords": [
+    "LLMOps",
+    "OpenTelemetry",
+    "LangSmith",
+    "Langfuse",
+    "Prompt Engineering",
+    "LangChain",
+    "RAG",
+    "AI Debugging",
+    "Trace Visualization",
+    "Token Heatmap"
+  ],
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "main": "./dist/extension.js",
+  "preview": true,
+  "activationEvents": [
+    "onLanguage:python",
+    "onLanguage:typescript",
+    "onLanguage:javascript",
+    "onView:tracelet-explorer"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "tracelet.fetchTraces",
+        "title": "Fetch Latest Traces",
+        "category": "Tracelet",
+        "icon": "$(cloud-download)"
+      },
+      {
+        "command": "tracelet.showTraces",
+        "title": "View Traces for Function",
+        "category": "Tracelet",
+        "icon": "$(eye)"
+      },
+      {
+        "command": "tracelet.openDiff",
+        "title": "Open Prompt Diff View",
+        "category": "Tracelet",
+        "icon": "$(diff)"
+      },
+      {
+        "command": "tracelet.openHydratedPrompt",
+        "title": "View Hydrated Prompt",
+        "category": "Tracelet",
+        "icon": "$(file-code)"
+      },
+      {
+        "command": "tracelet.toggleHeatmap",
+        "title": "Toggle Token Heatmap",
+        "category": "Tracelet",
+        "icon": "$(flame)"
+      },
+      {
+        "command": "tracelet.refreshExplorer",
+        "title": "Refresh Trace Explorer",
+        "category": "Tracelet",
+        "icon": "$(refresh)"
+      },
+
+      {
+        "command": "tracelet.clearCache",
+        "title": "Clear Trace Cache",
+        "category": "Tracelet",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "tracelet.openSettings",
+        "title": "Open Tracelet Settings",
+        "category": "Tracelet",
+        "icon": "$(gear)"
+      },
+      {
+        "command": "tracelet.openInDashboard",
+        "title": "Open in Dashboard",
+        "category": "Tracelet",
+        "icon": "$(link-external)"
+      },
+      {
+        "command": "tracelet.selectProvider",
+        "title": "Select Telemetry Provider",
+        "category": "Tracelet",
+        "icon": "$(plug)"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "tracelet-sidebar",
+          "title": "Tracelet",
+          "icon": "resources/icons/tracelet-icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "tracelet-sidebar": [
+        {
+          "id": "tracelet-explorer",
+          "name": "Trace Explorer",
+          "icon": "$(list-tree)",
+          "contextualTitle": "Tracelet"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "tracelet-explorer",
+        "contents": "No traces loaded yet.\n[Fetch Traces](command:tracelet.fetchTraces)\n[Select Provider](command:tracelet.selectProvider)\n[Open Settings](command:tracelet.openSettings)"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "tracelet.refreshExplorer",
+          "when": "view == tracelet-explorer",
+          "group": "navigation@1"
+        },
+        {
+          "command": "tracelet.fetchTraces",
+          "when": "view == tracelet-explorer",
+          "group": "navigation@2"
+        },
+
+        {
+          "command": "tracelet.clearCache",
+          "when": "view == tracelet-explorer",
+          "group": "1_data@2"
+        },
+        {
+          "command": "tracelet.selectProvider",
+          "when": "view == tracelet-explorer",
+          "group": "2_config@1"
+        },
+        {
+          "command": "tracelet.openSettings",
+          "when": "view == tracelet-explorer",
+          "group": "2_config@2"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "tracelet.openDiff",
+          "when": "view == tracelet-explorer && viewItem == llmSpan",
+          "group": "inline@1"
+        },
+        {
+          "command": "tracelet.openHydratedPrompt",
+          "when": "view == tracelet-explorer && viewItem == llmSpan",
+          "group": "1_view@1"
+        },
+        {
+          "command": "tracelet.openDiff",
+          "when": "view == tracelet-explorer && viewItem == llmSpan",
+          "group": "1_view@2"
+        },
+        {
+          "command": "tracelet.openInDashboard",
+          "when": "view == tracelet-explorer && viewItem =~ /^(trace|llmSpan|chainSpan)$/",
+          "group": "2_external@1"
+        }
+      ],
+      "editor/title": [
+        {
+          "command": "tracelet.toggleHeatmap",
+          "when": "resourceLangId =~ /^(python|typescript|javascript)$/",
+          "group": "navigation"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "tracelet.openDiff",
+          "when": "false"
+        },
+        {
+          "command": "tracelet.openHydratedPrompt",
+          "when": "false"
+        },
+        {
+          "command": "tracelet.openInDashboard",
+          "when": "false"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Tracelet",
+      "properties": {
+        "tracelet.activeProvider": {
+          "type": "string",
+          "enum": [
+            "otel-local",
+            "langsmith",
+            "langfuse"
+          ],
+          "default": "otel-local",
+          "description": "Active telemetry data provider.",
+          "enumDescriptions": [
+            "Read OpenTelemetry traces from local OTLP JSON files",
+            "Fetch traces from LangSmith API",
+            "Fetch traces from Langfuse API"
+          ]
+        },
+        "tracelet.otel.logDirectory": {
+          "type": "string",
+          "default": "",
+          "description": "Path to directory containing OTLP JSON trace files."
+        },
+        "tracelet.otel.filePattern": {
+          "type": "string",
+          "default": "*.json",
+          "description": "Glob pattern for OTLP trace files."
+        },
+        "tracelet.langsmith.apiKey": {
+          "type": "string",
+          "default": "",
+          "description": "LangSmith API key (starts with 'lsv2_...').",
+          "markdownDescription": "LangSmith API key. Get one at [smith.langchain.com](https://smith.langchain.com)."
+        },
+        "tracelet.langsmith.baseUrl": {
+          "type": "string",
+          "default": "https://api.smith.langchain.com",
+          "description": "LangSmith API base URL."
+        },
+        "tracelet.langsmith.projectName": {
+          "type": "string",
+          "default": "",
+          "description": "LangSmith project name to filter traces."
+        },
+        "tracelet.langfuse.publicKey": {
+          "type": "string",
+          "default": "",
+          "description": "Langfuse public key (starts with 'pk-lf-...')."
+        },
+        "tracelet.langfuse.secretKey": {
+          "type": "string",
+          "default": "",
+          "description": "Langfuse secret key (starts with 'sk-lf-...')."
+        },
+        "tracelet.langfuse.host": {
+          "type": "string",
+          "default": "https://cloud.langfuse.com",
+          "description": "Langfuse host URL.",
+          "enumDescriptions": [
+            "EU Cloud",
+            "US Cloud",
+            "Self-hosted"
+          ]
+        },
+        "tracelet.heatmap.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable token heatmap decorations by default."
+        },
+        "tracelet.heatmap.intensity": {
+          "type": "number",
+          "default": 0.6,
+          "minimum": 0.1,
+          "maximum": 1.0,
+          "description": "Heatmap color intensity (opacity multiplier)."
+        },
+        "tracelet.codeLens.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show CodeLens annotations above LLM invocations."
+        },
+        "tracelet.autoRefresh.enabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Automatically refresh traces at regular intervals."
+        },
+        "tracelet.autoRefresh.intervalSeconds": {
+          "type": "number",
+          "default": 30,
+          "minimum": 5,
+          "maximum": 300,
+          "description": "Auto-refresh interval in seconds."
+        },
+        "tracelet.maxTraces": {
+          "type": "number",
+          "default": 200,
+          "minimum": 10,
+          "maximum": 5000,
+          "description": "Maximum number of traces to keep in memory."
+        },
+        "tracelet.logLevel": {
+          "type": "string",
+          "enum": [
+            "debug",
+            "info",
+            "warn",
+            "error"
+          ],
+          "default": "info",
+          "description": "Logging level for the Tracelet output channel."
+        }
+      }
+    },
+    "keybindings": [
+      {
+        "command": "tracelet.fetchTraces",
+        "key": "ctrl+shift+t",
+        "mac": "cmd+shift+t",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "tracelet.toggleHeatmap",
+        "key": "ctrl+shift+h",
+        "mac": "cmd+shift+h",
+        "when": "editorTextFocus"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run build -- --production",
+    "build": "node esbuild.js",
+    "watch": "node esbuild.js --watch",
+    "lint": "eslint src --ext .ts",
+    "typecheck": "tsc --noEmit",
+    "pretest": "npm run build",
+    "test": "node ./out/test/runTest.js",
+    "package": "vsce package",
+    "publish:marketplace": "vsce publish",
+    "publish:ovsx": "ovsx publish"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/vscode": "^1.85.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "@vscode/test-electron": "^2.3.8",
+    "@vscode/vsce": "^3.0.0",
+    "esbuild": "^0.24.0",
+    "eslint": "^8.56.0",
+    "ovsx": "^0.9.0",
+    "prettier": "^3.2.0",
+    "typescript": "^5.5.0"
+  },
+  "dependencies": {
+    "zod": "^3.23.0"
+  }
+}
