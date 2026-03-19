@@ -26,6 +26,7 @@ export const Commands = {
   OPEN_SETTINGS: 'tracelet.openSettings',
   OPEN_IN_DASHBOARD: 'tracelet.openInDashboard',
   SELECT_PROVIDER: 'tracelet.selectProvider',
+  INSTALL_SDK: 'tracelet.installSdk',
 } as const;
 
 // ─── View IDs ────────────────────────────────────────────────────────────────
