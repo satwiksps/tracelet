@@ -230,6 +230,14 @@ export function activate(context: vscode.ExtensionContext): void {
       );
     }),
 
+    // Install Python SDK
+    vscode.commands.registerCommand(Commands.INSTALL_SDK, () => {
+      const terminal = vscode.window.activeTerminal || vscode.window.createTerminal('Tracelet');
+      terminal.show();
+      terminal.sendText('pip install tracelet-sdk');
+      vscode.window.showInformationMessage('Installing tracelet-sdk in your active Python environment...');
+    }),
+
     // Open trace in external dashboard
     vscode.commands.registerCommand(
       Commands.OPEN_IN_DASHBOARD,
