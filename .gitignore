@@ -5,3 +5,7 @@ out/
 .DS_Store
 Thumbs.db
 demo/traces/
+.tracelet/
+python-sdk/.venv/
+python-sdk/*.egg-info/
+__pycache__/

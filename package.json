@@ -105,6 +105,12 @@
         "title": "Select Telemetry Provider",
         "category": "Tracelet",
         "icon": "$(plug)"
+      },
+      {
+        "command": "tracelet.installSdk",
+        "title": "Install Python SDK",
+        "category": "Tracelet",
+        "icon": "$(cloud-download)"
       }
     ],
     "viewsContainers": {
@@ -129,7 +135,7 @@
     "viewsWelcome": [
       {
         "view": "tracelet-explorer",
-        "contents": "No traces loaded yet.\n[Fetch Traces](command:tracelet.fetchTraces)\n[Select Provider](command:tracelet.selectProvider)\n[Open Settings](command:tracelet.openSettings)"
+        "contents": "No traces loaded yet.\n[Fetch Traces](command:tracelet.fetchTraces)\n[Select Provider](command:tracelet.selectProvider)\n[Install Python SDK](command:tracelet.installSdk)\n[Open Settings](command:tracelet.openSettings)"
       }
     ],
     "menus": {
@@ -143,6 +149,11 @@
           "command": "tracelet.fetchTraces",
           "when": "view == tracelet-explorer",
           "group": "navigation@2"
+        },
+        {
+          "command": "tracelet.installSdk",
+          "when": "view == tracelet-explorer",
+          "group": "navigation@3"
         },
 
         {
