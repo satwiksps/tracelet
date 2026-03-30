@@ -1,6 +1,6 @@
 {
   "tracelet.activeProvider": "otel-local",
-  "tracelet.otel.logDirectory": "${workspaceFolder}/traces",
+  "tracelet.otel.logDirectory": "${workspaceFolder}/.tracelet/traces",
   "tracelet.otel.filePattern": "*.json",
   "tracelet.heatmap.enabled": true,
   "tracelet.heatmap.intensity": 0.6,

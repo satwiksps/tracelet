@@ -11,6 +11,10 @@ via @traceable or OpenInference auto-instrumentation.
 """
 
 from openai import OpenAI
+import tracelet
+
+# Initialize auto-instrumentation
+tracelet.init()
 
 client = OpenAI()
 
