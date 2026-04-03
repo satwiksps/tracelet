@@ -43,6 +43,28 @@ A dedicated activity bar panel allows for browsing traces in a hierarchical tree
 ### Rich Trace Detail Panel
 An interactive webview presents a Gantt-style timeline of all spans within a trace, offering clickable navigation back to the originating source code.
 
+---
+
+## Python SDK (`tracelet-sdk`)
+
+Tracelet comes with a companion Python package that auto-instruments your LLM code and writes local traces automatically. No cloud accounts required.
+
+```bash
+pip install tracelet-sdk
+```
+
+```python
+import tracelet
+tracelet.init() # That's it!
+
+from openai import OpenAI
+client = OpenAI()
+# The SDK automatically captures this call and saves it to `.tracelet/traces/`
+client.chat.completions.create(model="gpt-4o", messages=[...])
+```
+It supports **OpenAI**, **Anthropic**, and **LangChain**. It also includes a local evaluation engine (`@tracelet.eval`) for scoring traces in `pytest`.
+
+---
 
 ## Supported Backends
 
