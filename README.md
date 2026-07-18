@@ -1,13 +1,6 @@
 <div align="center">
-  <img src="resources/icons/tracelet-icon.png" width="128" alt="Tracelet Logo" />
-  <h1>Tracelet</h1>
-  <p><strong>Bridge LLM observability platforms with your IDE.</strong></p>
+  <img src="resources/tracelet_cover_photo.png" alt="Tracelet Cover" width="100%" />
 
-  <p>
-    <a href="https://marketplace.visualstudio.com/items?itemName=tracelet.tracelet"><img src="https://img.shields.io/visual-studio-marketplace/v/tracelet.tracelet?style=flat-square&label=VS%20Code%20Marketplace&color=007ACC" alt="VS Code Marketplace"></a>
-    <a href="https://github.com/satwiksps/tracelet/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="License"></a>
-    <img src="https://img.shields.io/badge/OpenTelemetry-supported-blueviolet?style=flat-square" alt="OpenTelemetry Supported">
-  </p>
 </div>
 
 ---
