@@ -3,7 +3,7 @@
 
 </div>
 
----
+## Overview
 
 Tracelet is a native VS Code extension built for AI engineers, LLMOps practitioners, and backend developers. It acts as a direct bridge between cloud-based LLM observability platforms and the local development environment, drastically reducing the friction of debugging complex AI workflows.
 
